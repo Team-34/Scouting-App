@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".TeamViewActivity">
+
+    <TextView
+        android:id="@+id/teamNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="34"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@id/verticalDiv1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <View
+        android:id="@+id/verticalDiv1"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@id/horizontalDiv1"
+        app:layout_constraintEnd_toStartOf="@id/teamName"
+        app:layout_constraintStart_toEndOf="@id/teamNumber"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/teamName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="Rockets"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <View
+        android:id="@+id/verticalDiv2"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@id/horizontalDiv1"
+        app:layout_constraintEnd_toStartOf="@id/ranking"
+        app:layout_constraintStart_toEndOf="@id/teamName"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ranking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="1/34"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/verticalDiv2"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <View
+        android:id="@+id/horizontalDiv1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/teamName"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/horizontalDiv1">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/aprHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Team APR"
+                app:layout_constraintBottom_toTopOf="@id/teamApr"
+                app:layout_constraintEnd_toStartOf="@id/verticalDiv3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/teamApr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="100"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@id/verticalDiv3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <View
+                android:id="@+id/verticalDiv3"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintBottom_toTopOf="@id/horizontalDiv2"
+                app:layout_constraintEnd_toStartOf="@id/teamOpr"
+                app:layout_constraintStart_toEndOf="@id/teamApr"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/oprHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Team OPR"
+                app:layout_constraintBottom_toTopOf="@id/teamOpr"
+                app:layout_constraintEnd_toStartOf="@id/verticalDiv4"
+                app:layout_constraintStart_toEndOf="@id/verticalDiv3"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/teamOpr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="234"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@id/verticalDiv4"
+                app:layout_constraintStart_toEndOf="@id/verticalDiv3"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <View
+                android:id="@+id/verticalDiv4"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintBottom_toTopOf="@id/horizontalDiv2"
+                app:layout_constraintEnd_toStartOf="@id/teamDpr"
+                app:layout_constraintStart_toEndOf="@id/teamOpr"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/dprHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Team DPR"
+                app:layout_constraintBottom_toTopOf="@id/teamDpr"
+                app:layout_constraintEnd_toStartOf="@id/verticalDiv5"
+                app:layout_constraintStart_toEndOf="@id/verticalDiv4"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/teamDpr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="123"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@id/verticalDiv5"
+                app:layout_constraintStart_toEndOf="@id/verticalDiv4"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <View
+                android:id="@+id/verticalDiv5"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintBottom_toTopOf="@id/horizontalDiv2"
+                app:layout_constraintEnd_toStartOf="@id/teamCcwm"
+                app:layout_constraintStart_toEndOf="@id/teamDpr"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/ccwmHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Team DPR"
+                app:layout_constraintBottom_toTopOf="@id/teamCcwm"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/verticalDiv5"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/teamCcwm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="111"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/verticalDiv5"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <View
+                android:id="@+id/horizontalDiv2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintBottom_toTopOf=""
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/teamCcwm"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/matchHistoryRv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/horizontalDiv2">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
