@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         setContentView(R.layout.activity_main);
         presenter.attach(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Bernard's fun regional");
         setSupportActionBar(toolbar);
         recyclerSetup();
 

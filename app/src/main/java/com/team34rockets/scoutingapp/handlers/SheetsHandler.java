@@ -28,6 +28,8 @@ public class SheetsHandler {
     private SheetsHandlerListener listener;
     private Activity activity;
     private GoogleAccountCredential credential;
+    private List<List<Object>> data;
+
 
     public SheetsHandler(Activity activity) {
         this.activity = activity;
@@ -55,13 +57,16 @@ public class SheetsHandler {
                 try {
                     ValueRange result = service.spreadsheets().values().get(iD, range).execute();
                     Log.d("?", "WE GOT EM?");
+                    data = result.getValues();
                     return result.getValues();
                 } catch (UserRecoverableAuthIOException e) {
                     Log.e("RIP", "F", e);
                     activity.startActivityForResult(e.getIntent(), MainActivityPresenter.AUTH_CODE);
+                    listener.onFail();
                     return null;
                 } catch (IOException e) {
                     Log.e("RIP", "F", e);
+                    listener.onFail();
                     return null;
                 }
             }
@@ -72,6 +77,14 @@ public class SheetsHandler {
             }
         };
 
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public List<List<Object>> getData() {
+        return data;
     }
 
     public void setSheetsHandlerListener(SheetsHandlerListener sheetsHandlerListener) {

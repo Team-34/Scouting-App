@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Team {
 
-    private long number;
+    private int number;
     private String name;
 
     private int rank;
@@ -13,10 +13,10 @@ public class Team {
     private double dpr;
     private double ccwm;
 
-    private List<TeamMatch> matchHistory;
+    private List<ScoutingReport> scoutingReports;
 
 
-    public Team(long number, String name) {
+    public Team(int number, String name) {
         this.number = number;
         this.name = name;
     }
@@ -61,15 +61,19 @@ public class Team {
         this.ccwm = ccwm;
     }
 
-    public List<TeamMatch> getMatchHistory() {
-        return matchHistory;
+    public List<ScoutingReport> getScoutingReports() {
+        return scoutingReports;
     }
 
-    public void setMatchHistory(List<TeamMatch> matchHistory) {
-        this.matchHistory = matchHistory;
+    public void setScoutingReports(List<ScoutingReport> scoutingReports) {
+        this.scoutingReports = scoutingReports;
     }
 
-    public long getNumber() {
+    public void addScouingReport(ScoutingReport scoutingReport) {
+        this.scoutingReports.add(scoutingReport);
+    }
+
+    public int getNumber() {
         return number;
     }
 
