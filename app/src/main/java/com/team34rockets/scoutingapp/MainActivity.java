@@ -1,14 +1,15 @@
 package com.team34rockets.scoutingapp;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.team34rockets.scoutingapp.contracts.MainActivityContract;
-import com.team34rockets.scoutingapp.handlers.SheetsHandler;
 import com.team34rockets.scoutingapp.models.Team;
 import com.team34rockets.scoutingapp.presenter.MainActivityPresenter;
 
-import java.io.IOException;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +22,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
     MainActivityContract.Presenter presenter = new MainActivityPresenter();
-    SheetsHandler sheetsHandler;
-    List<List<Object>> data = null;
+    public static final int YEETEMUP = 6934;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,26 +32,32 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         recyclerSetup();
-        presenter.onCreate();
-        SheetsHandler.SheetsHandlerListener listener = new SheetsHandler.SheetsHandlerListener() {
-            @Override
-            public void onReady() {
-                try {
-                    data = sheetsHandler.getValue("1BKY4UFuQaFRqNQhhoW95vlwZR3Dqr8eiW8-lLsA2gOY",
-                            "Sheet1");
-                    Log.d("Read", "Read");
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+        if (presenter.permissionCheck()) {
+            presenter.onCreate();
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[],
+                                           int[] grantResults) {
+        switch (requestCode) {
+            case YEETEMUP: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    presenter.onCreate();
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
                 }
             }
+        }
+    }
 
-            @Override
-            public void onFail() {
-                Log.d("Read", "Failed");
-            }
-        };
-        sheetsHandler = new SheetsHandler(listener);
-        Log.d("Tag", "yeet");
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == MainActivityPresenter.AUTH_CODE) presenter.refresh();
     }
 
     void recyclerSetup() {
@@ -63,5 +69,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Override
     public void updateTeamList(List<Team> teamList) {
 
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
     }
 }
