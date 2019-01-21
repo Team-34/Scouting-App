@@ -1,8 +1,8 @@
 package com.team34rockets.scoutingapp.presenter;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 
 import com.team34rockets.scoutingapp.MainActivity;
 import com.team34rockets.scoutingapp.contracts.MainActivityContract;
@@ -24,7 +24,13 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     @Override
     public void onCreate() {
         sheetsHandler = new SheetsHandler(view.getActivity());
-        refresh();
+        view.addActivityResultListener(new MainActivity.ActivityResultListener() {
+            @Override
+            public void onResult(int requestCode, int resultCode, Intent intent) {
+                sheetsHandler.createService(intent);
+                refresh();
+            }
+        });
         view.updateTeamList(teamList);
     }
 
@@ -65,20 +71,6 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 
     @Override
     public void refresh() {
-        sheetsHandler.setSheetsHandlerListener(new SheetsHandler.SheetsHandlerListener() {
-            @Override
-            public void onReady(List<List<Object>> result) {
-                data = result;
-            }
 
-            @Override
-            public void onFail() {
-
-            }
-        });
-        AsyncTask<Void, Void, List<List<Object>>> task =
-                sheetsHandler.getValueTask("1BKY4UFuQaFRqNQhhoW95vlwZR3Dqr8eiW8-lLsA2gOY",
-                        "Sheet1");
-        task.execute();
     }
 }

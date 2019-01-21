@@ -10,6 +10,7 @@ import com.team34rockets.scoutingapp.contracts.MainActivityContract;
 import com.team34rockets.scoutingapp.models.Team;
 import com.team34rockets.scoutingapp.presenter.MainActivityPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
     MainActivityContract.Presenter presenter = new MainActivityPresenter();
     public static final int YEETEMUP = 6934;
+    public static final int ACCOUNT_CHOSE = 33;
+    private List<ActivityResultListener> activityResultListeners = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == MainActivityPresenter.AUTH_CODE) presenter.refresh();
+        //if (requestCode == MainActivity.ACCOUNT_CHOSE) presenter.refresh();
+        for (ActivityResultListener listener : activityResultListeners) {
+            listener.onResult(requestCode, resultCode, intent);
+        }
     }
 
     void recyclerSetup() {
@@ -79,5 +87,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Override
     public Activity getActivity() {
         return this;
+    }
+
+    @Override
+    public void addActivityResultListener(ActivityResultListener activityResultListener) {
+        activityResultListeners.add(activityResultListener);
+    }
+
+    public interface ActivityResultListener {
+        void onResult(int requestCode, int resultCode, Intent intent);
     }
 }
