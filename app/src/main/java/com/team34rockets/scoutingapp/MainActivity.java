@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import com.team34rockets.scoutingapp.adapters.TeamListAdapter;
 import com.team34rockets.scoutingapp.contracts.MainActivityContract;
 import com.team34rockets.scoutingapp.models.Team;
 import com.team34rockets.scoutingapp.presenter.MainActivityPresenter;
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         if (presenter.permissionCheck()) {
             presenter.onCreate();
         }
-
     }
 
     @Override
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     @Override
     public void updateTeamList(List<Team> teamList) {
-
+        recyclerView.setAdapter(new TeamListAdapter(teamList, this));
     }
 
     @Override

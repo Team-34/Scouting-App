@@ -11,6 +11,7 @@ import com.team34rockets.scoutingapp.handlers.SheetsHandler;
 import com.team34rockets.scoutingapp.models.ScoutingReport;
 import com.team34rockets.scoutingapp.models.Team;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.core.app.ActivityCompat;
@@ -22,7 +23,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     public static final int AUTH_CODE = 254;
     private MainActivityContract.View view;
     private List<List<Object>> data;
-    private List<Team> teamList;
+    private List<Team> teamList = new ArrayList<>();
     private SheetsHandler sheetsHandler;
 
     @Override
@@ -49,12 +50,16 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
                 sheetsHandler.getValueTask(SHEET_ID, SHEET_NAME).execute();
             }
         });
-        view.updateTeamList(teamList);
     }
 
     @Override
     public void displayTeam(Team team) {
 
+    }
+
+    @Override
+    public List<Team> getData() {
+        return teamList;
     }
 
     @Override
@@ -98,7 +103,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
                 teamList.add(team);
             }
         }
-
+        view.updateTeamList(teamList);
         Log.d("Read", "Read three");
     }
 }

@@ -1,5 +1,6 @@
 package com.team34rockets.scoutingapp.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Team {
@@ -13,7 +14,7 @@ public class Team {
     private double dpr;
     private double ccwm;
 
-    private List<ScoutingReport> scoutingReports;
+    private List<ScoutingReport> scoutingReports = new ArrayList<>();
 
 
     public Team(int number, String name) {

@@ -24,6 +24,8 @@ public interface MainActivityContract {
 
         void displayTeam(Team team);
 
+        List<Team> getData();
+
         boolean permissionCheck();
 
         void refresh();
