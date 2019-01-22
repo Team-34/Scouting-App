@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     public static final int YEETEMUP = 6934;
     public static final int ACCOUNT_CHOSE = 33;
     private List<ActivityResultListener> activityResultListeners = new ArrayList<>();
-    private TeamListAdapter teamListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == MainActivityPresenter.AUTH_CODE) presenter.refresh();
-        //if (requestCode == MainActivity.ACCOUNT_CHOSE) presenter.refresh();
         for (ActivityResultListener listener : activityResultListeners) {
             listener.onResult(requestCode, resultCode, intent);
         }
