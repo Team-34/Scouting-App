@@ -10,7 +10,7 @@ public class Competition {
         this.teamList = teamList;
     }
 
-    public Team get(int position) {
+    public Team getTeam(int position) {
         return teamList.get(position);
     }
 

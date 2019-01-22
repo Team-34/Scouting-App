@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.team34rockets.scoutingapp.adapters.MatchListAdapter;
 import com.team34rockets.scoutingapp.contracts.TeamViewContract;
 import com.team34rockets.scoutingapp.models.Team;
 import com.team34rockets.scoutingapp.presenter.TeamViewPresenter;
@@ -13,21 +14,26 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class TeamViewActivity extends AppCompatActivity implements TeamViewContract.View {
 
     TeamViewContract.Presenter presenter = new TeamViewPresenter();
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_view);
         presenter.attach(this);
+        recyclerSetup();
         presenter.onCreate();
     }
 
     @Override
-    public void updateTeamData(Team team) {
+    public void updateTeamData(Team team, MatchListAdapter matchListAdapter) {
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.HALF_UP);
         ((TextView) findViewById(R.id.teamName)).setText(team.getName());
@@ -38,6 +44,12 @@ public class TeamViewActivity extends AppCompatActivity implements TeamViewContr
         ((TextView) findViewById(R.id.teamOpr)).setText(String.valueOf(team.getOpr()));
         ((TextView) findViewById(R.id.teamDpr)).setText(String.valueOf(team.getDpr()));
         ((TextView) findViewById(R.id.teamCcwm)).setText(String.valueOf(team.getCcwm()));
+        recyclerView.setAdapter(matchListAdapter);
+    }
+
+    void recyclerSetup() {
+        recyclerView = findViewById(R.id.matchHistoryRv);
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     @Override
