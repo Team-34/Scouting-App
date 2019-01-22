@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.team34rockets.scoutingapp.MainActivity;
+import com.team34rockets.scoutingapp.adapters.TeamListAdapter;
+import com.team34rockets.scoutingapp.models.Competition;
 import com.team34rockets.scoutingapp.models.Team;
-
-import java.util.List;
 
 public interface MainActivityContract {
     interface View {
-        void updateTeamList(List<Team> teamList);
+        void updateTeamList(TeamListAdapter teamListAdapter);
 
         Context getContext();
 
@@ -24,7 +24,7 @@ public interface MainActivityContract {
 
         void displayTeam(Team team);
 
-        List<Team> getData();
+        Competition getCompetition();
 
         boolean permissionCheck();
 

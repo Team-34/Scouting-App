@@ -4,10 +4,15 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.util.Log;
+import android.view.View;
 
+import com.google.gson.Gson;
 import com.team34rockets.scoutingapp.MainActivity;
+import com.team34rockets.scoutingapp.TeamViewActivity;
+import com.team34rockets.scoutingapp.adapters.TeamListAdapter;
 import com.team34rockets.scoutingapp.contracts.MainActivityContract;
 import com.team34rockets.scoutingapp.handlers.SheetsHandler;
+import com.team34rockets.scoutingapp.models.Competition;
 import com.team34rockets.scoutingapp.models.ScoutingReport;
 import com.team34rockets.scoutingapp.models.Team;
 
@@ -23,16 +28,19 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     public static final int AUTH_CODE = 254;
     private MainActivityContract.View view;
     private List<List<Object>> data;
-    private List<Team> teamList = new ArrayList<>();
     private SheetsHandler sheetsHandler;
+    private TeamListAdapter teamListAdapter;
+    private Competition competition;
 
     @Override
     public void onCreate() {
+        competition = new Competition(new ArrayList<Team>());
         sheetsHandler = new SheetsHandler(view.getActivity());
         sheetsHandler.setSheetsHandlerListener(new SheetsHandler.SheetsHandlerListener() {
             @Override
             public void onReady(List<List<Object>> result) {
                 Log.d("E", "Result Received!");
+                setup();
                 refresh();
             }
 
@@ -50,6 +58,21 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
                 sheetsHandler.getValueTask(SHEET_ID, SHEET_NAME).execute();
             }
         });
+
+    }
+
+    private void setup() {
+        teamListAdapter = new TeamListAdapter(competition.getTeamList(), view.getContext());
+        teamListAdapter.setItemClickListener(new TeamListAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(MainActivityPresenter.this.view.getActivity(),
+                        TeamViewActivity.class);
+                intent.putExtra("team", new Gson().toJson(competition));
+                intent.putExtra("position", position);
+                MainActivityPresenter.this.view.getActivity().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -58,8 +81,8 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     }
 
     @Override
-    public List<Team> getData() {
-        return teamList;
+    public Competition getCompetition() {
+        return competition;
     }
 
     @Override
@@ -100,10 +123,11 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
                         .build(sheetsHandler, i);
                 Team team = new Team(report.teamNumber, "");
                 team.addScouingReport(report);
-                teamList.add(team);
+                competition.add(team);
             }
         }
-        view.updateTeamList(teamList);
+
+        view.updateTeamList(teamListAdapter);
         Log.d("Read", "Read three");
     }
 }

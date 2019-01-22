@@ -8,7 +8,6 @@ import android.os.Bundle;
 
 import com.team34rockets.scoutingapp.adapters.TeamListAdapter;
 import com.team34rockets.scoutingapp.contracts.MainActivityContract;
-import com.team34rockets.scoutingapp.models.Team;
 import com.team34rockets.scoutingapp.presenter.MainActivityPresenter;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     public static final int YEETEMUP = 6934;
     public static final int ACCOUNT_CHOSE = 33;
     private List<ActivityResultListener> activityResultListeners = new ArrayList<>();
-
+    private TeamListAdapter teamListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +75,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
 
     @Override
-    public void updateTeamList(List<Team> teamList) {
-        recyclerView.setAdapter(new TeamListAdapter(teamList, this));
+    public void updateTeamList(TeamListAdapter teamListAdapter) {
+        recyclerView.setAdapter(teamListAdapter);
     }
 
     @Override
