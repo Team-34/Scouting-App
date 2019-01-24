@@ -62,7 +62,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     }
 
     private void setup() {
-        teamListAdapter = new TeamListAdapter(competition.getTeamList(), view.getContext());
+        teamListAdapter = new TeamListAdapter(competition, view.getContext());
         teamListAdapter.setItemClickListener(new TeamListAdapter.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

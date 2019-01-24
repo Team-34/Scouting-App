@@ -1,14 +1,54 @@
 package com.team34rockets.scoutingapp;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.team34rockets.scoutingapp.contracts.TeamMatchContract;
+import com.team34rockets.scoutingapp.models.ScoutingReport;
+import com.team34rockets.scoutingapp.presenter.TeamMatchPresenter;
 
-public class TeamMatchActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class TeamMatchActivity extends AppCompatActivity implements TeamMatchContract.View {
+
+    TeamMatchContract.Presenter presenter = new TeamMatchPresenter();
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_match);
+        presenter.attach(this);
+        recyclerSetup();
+        presenter.onCreate();
+    }
+
+    void recyclerSetup() {
+        recyclerView = findViewById(R.id.teamMatchRv);
+        recyclerView.setLayoutManager(layoutManager);
+    }
+
+    @Override
+    public void updateInfo(ScoutingReport scoutingReport) {
+
+    }
+
+    @Override
+    public String retrieveExtra() {
+        return getIntent().getStringExtra("competition");
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
     }
 }

@@ -5,10 +5,12 @@ import android.content.Context;
 
 import com.team34rockets.scoutingapp.models.ScoutingReport;
 
-public class TeamMatchContract {
+public interface TeamMatchContract {
 
     interface View {
         void updateInfo(ScoutingReport scoutingReport);
+
+        String retrieveExtra();
 
         Context getContext();
 

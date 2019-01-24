@@ -33,6 +33,32 @@ public class ScoutingReport {
     public int blueScore;
     public String alliance;
 
+
+    public static final String[] questionNames = {
+            "Team Number",
+            "Match Number",
+            "Hatches Scored",
+            "Cargo Scored",
+            "Can Place Hatches",
+            "Hatch Place Level",
+            "Can Shoot Cargo",
+            "Cargo Shoot Level",
+            "Climbing Level",
+            "Can Pickup Hatches",
+            "Can Pickup Cargo",
+            "Has a Camera",
+            "Has a Sandstorm",
+            "Has a Human Player",
+            "Is Offense Bot",
+            "Driver Rating",
+            "Hatch Score Rating",
+            "Cargo Score Rating",
+            "Offense Rating",
+            "Defense Rating",
+            "Sandstorm Rating",
+            "Overall Rating",
+            };
+
     public static class ScoutingReportBuilder {
 
         private Sheet sheet;
@@ -73,7 +99,11 @@ public class ScoutingReport {
 
 
         private Integer getInteger(String columnName) {
-            return Integer.valueOf(getString(columnName));
+            try {
+                return Integer.valueOf(getString(columnName));
+            } catch (NumberFormatException e) {
+                return 0;
+            }
         }
 
         private String getString(String columnName) {
@@ -128,4 +158,5 @@ public class ScoutingReport {
             return result.contains("O");
         }
     }
+
 }

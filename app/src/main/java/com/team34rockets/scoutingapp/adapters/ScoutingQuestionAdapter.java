@@ -7,40 +7,43 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.team34rockets.scoutingapp.R;
-import com.team34rockets.scoutingapp.models.Competition;
+import com.team34rockets.scoutingapp.models.ScoutingReport;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHolder> {
+public class ScoutingQuestionAdapter
+        extends RecyclerView.Adapter<ScoutingQuestionAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
-    private Competition dataset;
+    private List<ScoutingReport> dataset;
+
     private ItemClickListener itemClickListener;
 
-    public TeamListAdapter(Competition dataset, Context context) {
+    public ScoutingQuestionAdapter(List<ScoutingReport> dataset, Context context) {
         this.dataset = dataset;
         inflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.team_row_recycler, parent, false);
-
-        return new ViewHolder(view);
+    public ScoutingQuestionAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                                 int viewType) {
+        return new ViewHolder(inflater.inflate(R.layout.short_answer_row, parent,
+                false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ScoutingQuestionAdapter.ViewHolder holder, int position) {
+        ScoutingReport scoutingReport = dataset.get(position);
 
-        holder.teamNumberTextView.setText(String.valueOf(dataset.getTeam(position).getNumber()));
-        holder.teamNameTextView.setText(dataset.getTeam(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return dataset.getTeams();
+        return dataset.size();
     }
 
     public void setItemClickListener(ItemClickListener itemClickListener) {
@@ -52,13 +55,14 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView teamNameTextView;
-        TextView teamNumberTextView;
+
+        TextView questionView;
+        TextView answerView;
 
         ViewHolder(View itemView) {
             super(itemView);
-            teamNameTextView = itemView.findViewById(R.id.teamRowName);
-            teamNumberTextView = itemView.findViewById(R.id.teamRowNumber);
+            questionView = itemView.findViewById(R.id.question);
+            answerView = itemView.findViewById(R.id.answer);
             itemView.setOnClickListener(this);
         }
 
