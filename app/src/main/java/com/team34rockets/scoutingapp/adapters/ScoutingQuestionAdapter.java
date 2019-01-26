@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.team34rockets.scoutingapp.R;
+import com.team34rockets.scoutingapp.Utils;
 import com.team34rockets.scoutingapp.models.ScoutingReport;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -18,11 +20,9 @@ public class ScoutingQuestionAdapter
         extends RecyclerView.Adapter<ScoutingQuestionAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
-    private List<ScoutingReport> dataset;
+    private ScoutingReport dataset;
 
-    private ItemClickListener itemClickListener;
-
-    public ScoutingQuestionAdapter(List<ScoutingReport> dataset, Context context) {
+    public ScoutingQuestionAdapter(ScoutingReport dataset, Context context) {
         this.dataset = dataset;
         inflater = LayoutInflater.from(context);
     }
@@ -37,24 +37,25 @@ public class ScoutingQuestionAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ScoutingQuestionAdapter.ViewHolder holder, int position) {
-        ScoutingReport scoutingReport = dataset.get(position);
+        Field[] fields = dataset.getClass().getFields();
+        List<String> questions = Utils.sortSet(ScoutingReport.questionNames.keySet());
+        String question = String.valueOf(questions.get(position));
+        holder.questionView.setText(question);
+        try {
+            holder.answerView.setText(String.valueOf(fields[ScoutingReport.questionNames
+                    .get(question)].get(dataset)));
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return dataset.size();
+        return ScoutingReport.questionNames.size();
     }
 
-    public void setItemClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
-
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView questionView;
         TextView answerView;
@@ -63,12 +64,6 @@ public class ScoutingQuestionAdapter
             super(itemView);
             questionView = itemView.findViewById(R.id.question);
             answerView = itemView.findViewById(R.id.answer);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (itemClickListener != null) itemClickListener.onItemClick(v, getAdapterPosition());
         }
     }
 }

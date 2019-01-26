@@ -2,7 +2,9 @@ package com.team34rockets.scoutingapp.models;
 
 import com.team34rockets.scoutingapp.handlers.SheetsHandler;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ScoutingReport {
 
@@ -34,30 +36,32 @@ public class ScoutingReport {
     public String alliance;
 
 
-    public static final String[] questionNames = {
-            "Team Number",
-            "Match Number",
-            "Hatches Scored",
-            "Cargo Scored",
-            "Can Place Hatches",
-            "Hatch Place Level",
-            "Can Shoot Cargo",
-            "Cargo Shoot Level",
-            "Climbing Level",
-            "Can Pickup Hatches",
-            "Can Pickup Cargo",
-            "Has a Camera",
-            "Has a Sandstorm",
-            "Has a Human Player",
-            "Is Offense Bot",
-            "Driver Rating",
-            "Hatch Score Rating",
-            "Cargo Score Rating",
-            "Offense Rating",
-            "Defense Rating",
-            "Sandstorm Rating",
-            "Overall Rating",
-            };
+    public static final Map<String, Integer> questionNames = new HashMap<String, Integer>() {
+        {
+            put("Team Number", 25);
+            put("Match Number", 19);
+            put("Hatches Scored", 18);
+            put("Cargo Scored", 9);
+            put("Can Place Hatches", 6);
+            put("Hatch Place Level", 16);
+            put("Can Shoot Cargo", 5);
+            put("Cargo Shoot Level", 7);
+            put("Climbing Level", 10);
+            put("Can Pickup Hatches", 4);
+            put("Can Pickup Cargo", 3);
+            put("Has a Camera", 14);
+            put("Has a Sandstorm", 1);
+            put("Has a Human Player", 15);
+            put("Is Offense Bot", 20);
+            put("Driver Rating", 13);
+            put("Hatch Score Rating", 17);
+            put("Cargo Score Rating", 8);
+            put("Offense Rating", 21);
+            put("Defense Rating", 11);
+            put("Sandstorm Rating", 24);
+            put("Overall Rating", 22);
+        }
+    };
 
     public static class ScoutingReportBuilder {
 

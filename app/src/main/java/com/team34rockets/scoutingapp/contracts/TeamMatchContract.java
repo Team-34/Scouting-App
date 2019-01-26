@@ -3,12 +3,12 @@ package com.team34rockets.scoutingapp.contracts;
 import android.app.Activity;
 import android.content.Context;
 
-import com.team34rockets.scoutingapp.models.ScoutingReport;
+import com.team34rockets.scoutingapp.adapters.ScoutingQuestionAdapter;
 
 public interface TeamMatchContract {
 
     interface View {
-        void updateInfo(ScoutingReport scoutingReport);
+        void updateInfo(ScoutingQuestionAdapter scoutingQuestionAdapter, String additionalDetails);
 
         String retrieveExtra();
 

@@ -1,6 +1,9 @@
 package com.team34rockets.scoutingapp;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class Utils {
 
@@ -28,5 +31,14 @@ public class Utils {
             return sum / marks.size();
         }
         return sum;
+    }
+
+    public static List<String> sortSet(Set<String> items) {
+        List<String> itemsList = new ArrayList<>();
+        for (String t : items) {
+            itemsList.add(t);
+        }
+        Collections.sort(itemsList);
+        return itemsList;
     }
 }

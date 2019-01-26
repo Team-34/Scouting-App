@@ -12,6 +12,7 @@ public class TeamMatchPresenter implements TeamMatchContract.Presenter {
     private Competition competition;
     private ScoutingQuestionAdapter scoutingQuestionAdapter;
 
+
     @Override
     public void attach(View view) {
         this.view = view;
@@ -29,6 +30,9 @@ public class TeamMatchPresenter implements TeamMatchContract.Presenter {
         int teamNumber = view.getActivity().getIntent().getIntExtra("teamNumber",
                 34);
         scoutingQuestionAdapter = new ScoutingQuestionAdapter(
-                competition.getTeamByNumber(teamNumber).getScoutingReports(), view.getContext());
+                competition.getTeamByNumber(teamNumber).getScoutingReports().get(position),
+                view.getContext());
+        view.updateInfo(scoutingQuestionAdapter,
+                competition.getTeamByNumber(teamNumber).getScoutingReports().get(position).details);
     }
 }

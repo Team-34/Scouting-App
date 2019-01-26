@@ -121,12 +121,15 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
             if (i != 0) {
                 ScoutingReport report = new ScoutingReport.ScoutingReportBuilder()
                         .build(sheetsHandler, i);
-                Team team = new Team(report.teamNumber, "");
-                team.addScouingReport(report);
-                competition.add(team);
+                if (competition.getTeamByNumber(report.teamNumber) == null) {
+                    Team team = new Team(report.teamNumber, "");
+                    team.addScouingReport(report);
+                    competition.add(team);
+                } else {
+                    competition.getTeamByNumber(report.teamNumber).addScouingReport(report);
+                }
             }
         }
-
         view.updateTeamList(teamListAdapter);
         Log.d("Read", "Read three");
     }
