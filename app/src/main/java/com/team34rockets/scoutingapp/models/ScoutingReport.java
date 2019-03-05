@@ -2,6 +2,7 @@ package com.team34rockets.scoutingapp.models;
 
 import com.team34rockets.scoutingapp.handlers.SheetsHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +64,33 @@ public class ScoutingReport {
         }
     };
 
+    public final List<String> questions = new ArrayList<String>() {
+        {
+            add("Team Number:");
+            add("Match Number:");
+            add("Autonomous Sandstorm?");
+            add("Sandstorm Rating");
+            add("Has A Camera");
+            add("Can Place Hatches?");
+            add("Can Pickup Hatches From the Floor?");
+            add("Hatch Rating:");
+            add("Hatch Place Level:");
+            add("Hatches Scored:");
+            add("Can Shoot Cargo?");
+            add("Can Pickup Cargo From Floor?");
+            add("Cargo Rating:");
+            add("Cargo Place Level");
+            add("Cargo Scored");
+            add("Is Offense Bot?");
+            add("Offense Rating");
+            add("Defense Rating");
+            add("Climbing Level:");
+            add("Has A Human Player");
+            add("Driver Rating");
+            add("Overall Rating");
+        }
+    };
+
     public static class ScoutingReportBuilder {
 
         private Sheet sheet;
@@ -98,6 +126,9 @@ public class ScoutingReport {
             report.sandstormRating = getInteger("How good is their sandstorm period?");
             report.rating = getInteger("Overall score?");
             report.details = getString("Important Details");
+            report.blueScore = getInteger("Blue Score");
+            report.redScore = getInteger("Red Score");
+            report.alliance = getString("Alliance");
             return report;
         }
 

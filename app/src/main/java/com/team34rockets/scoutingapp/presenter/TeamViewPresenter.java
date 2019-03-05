@@ -33,7 +33,7 @@ public class TeamViewPresenter implements TeamViewContract.Presenter {
                 Intent intent = new Intent(TeamViewPresenter.this.view.getActivity(),
                         TeamMatchActivity.class);
                 intent.putExtra("competition", new Gson().toJson(competition));
-                intent.putExtra("position", new Gson().toJson(position));
+                intent.putExtra("position", position);
                 intent.putExtra("teamNumber", team.getNumber());
                 TeamViewPresenter.this.view.getActivity().startActivity(intent);
             }
@@ -52,6 +52,7 @@ public class TeamViewPresenter implements TeamViewContract.Presenter {
         for (ScoutingReport report : competition.getTeam(position).getScoutingReports()) {
             matches.add(new Match(report));
         }
+
         return matches;
     }
 

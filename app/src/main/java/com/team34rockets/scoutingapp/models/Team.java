@@ -8,6 +8,8 @@ import com.team34rockets.scoutingapp.Utils;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Team implements Parcelable {
@@ -39,6 +41,12 @@ public class Team implements Parcelable {
         this.number = number;
         this.name = name;
         scoutingReports = new ArrayList<>();
+        Collections.sort(scoutingReports, new Comparator<ScoutingReport>() {
+            @Override
+            public int compare(ScoutingReport o1, ScoutingReport o2) {
+                return o1.matchNumber - o2.matchNumber;
+            }
+        });
     }
 
     public int getRank() {
@@ -95,6 +103,12 @@ public class Team implements Parcelable {
     }
 
     public List<ScoutingReport> getScoutingReports() {
+        Collections.sort(scoutingReports, new Comparator<ScoutingReport>() {
+            @Override
+            public int compare(ScoutingReport o1, ScoutingReport o2) {
+                return o1.matchNumber - o2.matchNumber;
+            }
+        });
         return scoutingReports;
     }
 

@@ -12,10 +12,12 @@ import com.team34rockets.scoutingapp.TeamViewActivity;
 import com.team34rockets.scoutingapp.adapters.TeamListAdapter;
 import com.team34rockets.scoutingapp.contracts.MainActivityContract;
 import com.team34rockets.scoutingapp.handlers.SheetsHandler;
+import com.team34rockets.scoutingapp.handlers.TBAHandler;
 import com.team34rockets.scoutingapp.models.Competition;
 import com.team34rockets.scoutingapp.models.ScoutingReport;
 import com.team34rockets.scoutingapp.models.Team;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,7 +124,13 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
                 ScoutingReport report = new ScoutingReport.ScoutingReportBuilder()
                         .build(sheetsHandler, i);
                 if (competition.getTeamByNumber(report.teamNumber) == null) {
-                    Team team = new Team(report.teamNumber, "");
+                    String teamName = null;
+                    try {
+                        teamName = TBAHandler.GetTeamName(report.teamNumber);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Team team = new Team(report.teamNumber, teamName == null ? "" : teamName);
                     team.addScouingReport(report);
                     competition.add(team);
                 } else {

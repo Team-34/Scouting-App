@@ -1,5 +1,7 @@
 package com.team34rockets.scoutingapp.models;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Competition {
@@ -8,6 +10,7 @@ public class Competition {
 
     public Competition(List<Team> teamList) {
         this.teamList = teamList;
+
     }
 
     public Team getTeam(int position) {
@@ -16,10 +19,22 @@ public class Competition {
 
     public void add(Team team, int position) {
         teamList.set(position, team);
+        Collections.sort(teamList, new Comparator<Team>() {
+            @Override
+            public int compare(Team o1, Team o2) {
+                return o1.getNumber() - o2.getNumber();
+            }
+        });
     }
 
     public void add(Team team) {
         teamList.add(team);
+        Collections.sort(teamList, new Comparator<Team>() {
+            @Override
+            public int compare(Team o1, Team o2) {
+                return o1.getNumber() - o2.getNumber();
+            }
+        });
     }
 
     public List<Team> getTeamList() {

@@ -1,6 +1,7 @@
 package com.team34rockets.scoutingapp.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,12 @@ public class MatchListAdapter extends RecyclerView.Adapter<MatchListAdapter.View
         holder.blueScoreTextView.setText(String.valueOf(match.getBlueScore()));
         holder.redScoreTextView.setText(String.valueOf(match.getRedScore()));
         holder.matchApr.setText(String.valueOf(match.matchApr()));
+        holder.matchNumber.setText(String.valueOf(match.getMatchNumber()));
+        if (match.team.contains("u")) {
+            holder.blueScoreTextView.setTypeface(null, Typeface.BOLD);
+        } else if (match.winner == Match.ALLIANCE.RED) {
+            holder.redScoreTextView.setTypeface(null, Typeface.BOLD);
+        }
     }
 
     @Override
@@ -67,6 +74,7 @@ public class MatchListAdapter extends RecyclerView.Adapter<MatchListAdapter.View
         TextView blueScoreTextView;
         TextView redScoreTextView;
         TextView matchApr;
+        TextView matchNumber;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -74,6 +82,7 @@ public class MatchListAdapter extends RecyclerView.Adapter<MatchListAdapter.View
             blueScoreTextView = itemView.findViewById(R.id.blueScore);
             redScoreTextView = itemView.findViewById(R.id.redScore);
             matchApr = itemView.findViewById(R.id.matchApr);
+            matchNumber = itemView.findViewById(R.id.matchNumber);
             itemView.setOnClickListener(this);
         }
 

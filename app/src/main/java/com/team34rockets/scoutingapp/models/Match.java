@@ -6,11 +6,15 @@ public class Match {
     private ALLIANCE alliance;
     private int blueScore;
     private int redScore;
+    public ALLIANCE winner;
+    public String team;
 
     public Match(ScoutingReport scoutingReport) {
         this.scoutingReport = scoutingReport;
         blueScore = scoutingReport.blueScore;
         redScore = scoutingReport.redScore;
+        assignAlliance();
+        team = scoutingReport.alliance;
     }
 
     private void assignAlliance() {
@@ -27,7 +31,6 @@ public class Match {
      * @return 0 for loss, 1 for win, 2 for tie
      */
     public int getResult() {
-        ALLIANCE winner;
         if (blueScore > redScore) {
             winner = ALLIANCE.BLUE;
         } else if (blueScore < redScore) {
@@ -63,7 +66,11 @@ public class Match {
         return redScore;
     }
 
-    private enum ALLIANCE {
+    public int getMatchNumber() {
+        return scoutingReport.matchNumber;
+    }
+
+    public enum ALLIANCE {
         RED,
         BLUE
     }

@@ -7,11 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.team34rockets.scoutingapp.R;
-import com.team34rockets.scoutingapp.Utils;
 import com.team34rockets.scoutingapp.models.ScoutingReport;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,8 +36,9 @@ public class ScoutingQuestionAdapter
     @Override
     public void onBindViewHolder(@NonNull ScoutingQuestionAdapter.ViewHolder holder, int position) {
         Field[] fields = dataset.getClass().getFields();
-        List<String> questions = Utils.sortSet(ScoutingReport.questionNames.keySet());
-        String question = String.valueOf(questions.get(position));
+//        List<String> questions = Utils.sortSet(ScoutingReport.questionNames.keySet());
+//        String question = String.valueOf(questions.get(position));
+        String question = dataset.questions.get(position);
         holder.questionView.setText(question);
         try {
             holder.answerView.setText(String.valueOf(fields[ScoutingReport.questionNames
