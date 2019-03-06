@@ -53,6 +53,11 @@ public class SheetsHandler {
             range) {
         return new AsyncTask<Void, Void, List<List<Object>>>() {
             @Override
+            protected void onPreExecute() {
+                listener.onStart();
+            }
+
+            @Override
             protected List<List<Object>> doInBackground(Void... voids) {
                 try {
                     ValueRange result = service.spreadsheets().values().get(iD, range).execute();
@@ -92,6 +97,8 @@ public class SheetsHandler {
     }
 
     public interface SheetsHandlerListener {
+        void onStart();
+
         void onReady(List<List<Object>> result);
 
         void onFail();

@@ -3,11 +3,14 @@ package com.team34rockets.scoutingapp.presenter;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.team34rockets.scoutingapp.MainActivity;
+import com.team34rockets.scoutingapp.R;
 import com.team34rockets.scoutingapp.TeamViewActivity;
 import com.team34rockets.scoutingapp.adapters.TeamListAdapter;
 import com.team34rockets.scoutingapp.contracts.MainActivityContract;
@@ -33,12 +36,18 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     private SheetsHandler sheetsHandler;
     private TeamListAdapter teamListAdapter;
     private Competition competition;
+    private ProgressBar progressBar;
 
     @Override
     public void onCreate() {
         competition = new Competition(new ArrayList<Team>());
+        progressBar = view.getActivity().findViewById(R.id.progressBar);
         sheetsHandler = new SheetsHandler(view.getActivity());
         sheetsHandler.setSheetsHandlerListener(new SheetsHandler.SheetsHandlerListener() {
+            @Override
+            public void onStart() {
+            }
+
             @Override
             public void onReady(List<List<Object>> result) {
                 Log.d("E", "Result Received!");
@@ -119,26 +128,46 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 
     @Override
     public void refresh() {
-        for (int i = 0; i < sheetsHandler.getData().size(); i++) {
-            if (i != 0) {
-                ScoutingReport report = new ScoutingReport.ScoutingReportBuilder()
-                        .build(sheetsHandler, i);
-                if (competition.getTeamByNumber(report.teamNumber) == null) {
-                    String teamName = null;
-                    try {
-                        teamName = TBAHandler.GetTeamName(report.teamNumber);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+        new RefreshInfo().execute();
+    }
+
+    private class RefreshInfo extends AsyncTask<Void, Integer, Void> {
+        ProgressBar progressBar = MainActivityPresenter.this.progressBar;
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            for (int i = 0; i < sheetsHandler.getData().size(); i++) {
+                if (i != 0) {
+                    ScoutingReport report = new ScoutingReport.ScoutingReportBuilder()
+                            .build(sheetsHandler, i);
+                    if (competition.getTeamByNumber(report.teamNumber) == null) {
+                        String teamName = null;
+                        try {
+                            teamName = TBAHandler.GetTeamName(report.teamNumber);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Team team = new Team(report.teamNumber, teamName == null ? "" : teamName);
+                        team.addScouingReport(report);
+                        competition.add(team);
+                    } else {
+                        competition.getTeamByNumber(report.teamNumber).addScouingReport(report);
                     }
-                    Team team = new Team(report.teamNumber, teamName == null ? "" : teamName);
-                    team.addScouingReport(report);
-                    competition.add(team);
-                } else {
-                    competition.getTeamByNumber(report.teamNumber).addScouingReport(report);
                 }
             }
+            return null;
         }
-        view.updateTeamList(teamListAdapter);
-        Log.d("Read", "Read three");
+
+        @Override
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            Log.d("Read", "Read three");
+            progressBar.setVisibility(View.GONE);
+            view.updateTeamList(teamListAdapter);
+        }
     }
 }

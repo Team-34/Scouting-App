@@ -37,6 +37,7 @@ public class TBAHandler {
             }
             reader.endObject();
         }
+        httpURLConnection.disconnect();
         return null;
     }
 }

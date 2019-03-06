@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.ProgressBar;
 
 import com.team34rockets.scoutingapp.adapters.TeamListAdapter;
 import com.team34rockets.scoutingapp.contracts.MainActivityContract;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     public static final int YEETEMUP = 6934;
     public static final int ACCOUNT_CHOSE = 33;
     private List<ActivityResultListener> activityResultListeners = new ArrayList<>();
+    private ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         presenter.attach(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Bernard's fun regional");
+        progressBar = findViewById(R.id.progressBar);
         setSupportActionBar(toolbar);
         recyclerSetup();
 

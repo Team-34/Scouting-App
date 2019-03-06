@@ -35,8 +35,11 @@ public class ScoutingReport {
     public int redScore;
     public int blueScore;
     public String alliance;
-
-
+    /**
+     * @Deprecated because this method is pretty bad and relies on Reflection and also probably
+     * doesnt work
+     */
+    @Deprecated
     public static final Map<String, Integer> questionNames = new HashMap<String, Integer>() {
         {
             put("Team Number", 25);
@@ -61,6 +64,32 @@ public class ScoutingReport {
             put("Defense Rating", 11);
             put("Sandstorm Rating", 24);
             put("Overall Rating", 22);
+        }
+    };
+    public final List<Object> answers = new ArrayList<Object>() {
+        {
+            add(teamNumber);
+            add(matchNumber);
+            add(autoSandstorm);
+            add(sandstormRating);
+            add(hasCamera);
+            add(canPlaceHatches);
+            add(canPickupHatches);
+            add(hatchRating);
+            add(hatchLayer);
+            add(hatchesScored);
+            add(canPlaceCargo);
+            add(canPickupCargo);
+            add(cargoRating);
+            add(cargoLayer);
+            add(cargoScored);
+            add(offenceBot);
+            add(offenseRating);
+            add(defenseRating);
+            add(climbLevel);
+            add(hasHumanPlayer);
+            add(driverRating);
+            add(rating);
         }
     };
 
@@ -90,6 +119,17 @@ public class ScoutingReport {
             add("Overall Rating");
         }
     };
+    //TODO: Idea from Andrey, but I have no Idea how to implement this yet, unfortunately
+    public final Map<Integer, String> delimiters = new HashMap<Integer, String>() {
+        {
+            put(0, "General Data");
+            put(answers.indexOf(autoSandstorm), "Sandstorm Data");
+            put(answers.indexOf(canPlaceHatches), "Hatch Data");
+            put(answers.indexOf(canPlaceCargo), "Cargo Data");
+            put(answers.indexOf(offenceBot), "Misc Data");
+        }
+    };
+    private String teamName;
 
     public static class ScoutingReportBuilder {
 

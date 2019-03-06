@@ -1,5 +1,6 @@
 package com.team34rockets.scoutingapp.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +9,6 @@ import android.widget.TextView;
 
 import com.team34rockets.scoutingapp.R;
 import com.team34rockets.scoutingapp.models.ScoutingReport;
-
-import java.lang.reflect.Field;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,25 +32,23 @@ public class ScoutingQuestionAdapter
                 false));
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ScoutingQuestionAdapter.ViewHolder holder, int position) {
-        Field[] fields = dataset.getClass().getFields();
-//        List<String> questions = Utils.sortSet(ScoutingReport.questionNames.keySet());
-//        String question = String.valueOf(questions.get(position));
         String question = dataset.questions.get(position);
         holder.questionView.setText(question);
-        try {
-            holder.answerView.setText(String.valueOf(fields[ScoutingReport.questionNames
-                    .get(question)].get(dataset)));
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        Object o = dataset.answers.get(position);
+        if (o instanceof Boolean) {
+            holder.answerView.setText("Yes");
+        } else {
+            holder.answerView.setText(String.valueOf(o));
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return ScoutingReport.questionNames.size();
+        return dataset.questions.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
