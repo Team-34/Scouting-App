@@ -39,7 +39,11 @@ public class ScoutingQuestionAdapter
         holder.questionView.setText(question);
         Object o = dataset.answers.get(position);
         if (o instanceof Boolean) {
-            holder.answerView.setText("Yes");
+            if ((Boolean) o) {
+                holder.answerView.setText("Yes");
+            } else {
+                holder.answerView.setText("No");
+            }
         } else {
             holder.answerView.setText(String.valueOf(o));
         }

@@ -35,6 +35,9 @@ public class ScoutingReport {
     public int redScore;
     public int blueScore;
     public String alliance;
+    public List<Object> answers;
+    
+    
     /**
      * @Deprecated because this method is pretty bad and relies on Reflection and also probably
      * doesnt work
@@ -66,32 +69,7 @@ public class ScoutingReport {
             put("Overall Rating", 22);
         }
     };
-    public final List<Object> answers = new ArrayList<Object>() {
-        {
-            add(teamNumber);
-            add(matchNumber);
-            add(autoSandstorm);
-            add(sandstormRating);
-            add(hasCamera);
-            add(canPlaceHatches);
-            add(canPickupHatches);
-            add(hatchRating);
-            add(hatchLayer);
-            add(hatchesScored);
-            add(canPlaceCargo);
-            add(canPickupCargo);
-            add(cargoRating);
-            add(cargoLayer);
-            add(cargoScored);
-            add(offenceBot);
-            add(offenseRating);
-            add(defenseRating);
-            add(climbLevel);
-            add(hasHumanPlayer);
-            add(driverRating);
-            add(rating);
-        }
-    };
+
 
     public final List<String> questions = new ArrayList<String>() {
         {
@@ -119,17 +97,6 @@ public class ScoutingReport {
             add("Overall Rating");
         }
     };
-    //TODO: Idea from Andrey, but I have no Idea how to implement this yet, unfortunately
-    public final Map<Integer, String> delimiters = new HashMap<Integer, String>() {
-        {
-            put(0, "General Data");
-            put(answers.indexOf(autoSandstorm), "Sandstorm Data");
-            put(answers.indexOf(canPlaceHatches), "Hatch Data");
-            put(answers.indexOf(canPlaceCargo), "Cargo Data");
-            put(answers.indexOf(offenceBot), "Misc Data");
-        }
-    };
-    private String teamName;
 
     public static class ScoutingReportBuilder {
 
@@ -151,8 +118,7 @@ public class ScoutingReport {
             report.cargoLayer = getLayer("If yes, which layer of the rocket can it " +
                     "reach?");
             report.climbLevel = getClimbLevel();
-            report.canPickupHatches = getBoolean("Can they pickup a hatch from the " +
-                    "floor?");
+            report.canPickupHatches = getBoolean("Can they pick hatch from floor?");
             report.canPickupCargo = getBoolean("Can they grab cargo from ground?");
             report.hasCamera = getBoolean("Camera?");
             report.autoSandstorm = autoSandstorm();
@@ -169,6 +135,30 @@ public class ScoutingReport {
             report.blueScore = getInteger("Blue Score");
             report.redScore = getInteger("Red Score");
             report.alliance = getString("Alliance");
+
+            report.answers = new ArrayList<Object>();
+            report.answers.add(report.teamNumber);
+            report.answers.add(report.matchNumber);
+            report.answers.add(report.autoSandstorm);
+            report.answers.add(report.sandstormRating);
+            report.answers.add(report.hasCamera);
+            report.answers.add(report.canPlaceHatches);
+            report.answers.add(report.canPickupHatches);
+            report.answers.add(report.hatchRating);
+            report.answers.add(report.hatchLayer);
+            report.answers.add(report.hatchesScored);
+            report.answers.add(report.canPlaceCargo);
+            report.answers.add(report.canPickupCargo);
+            report.answers.add(report.cargoRating);
+            report.answers.add(report.cargoLayer);
+            report.answers.add(report.cargoScored);
+            report.answers.add(report.offenceBot);
+            report.answers.add(report.offenseRating);
+            report.answers.add(report.defenseRating);
+            report.answers.add(report.climbLevel);
+            report.answers.add(report.hasHumanPlayer);
+            report.answers.add(report.driverRating);
+            report.answers.add(report.rating);
             return report;
         }
 
