@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 public class TBAHandler {
 
@@ -40,4 +41,9 @@ public class TBAHandler {
         httpURLConnection.disconnect();
         return null;
     }
+
+    public static Map<String, String> GetTeamData(int teamNumber) {
+
+    }
+
 }
