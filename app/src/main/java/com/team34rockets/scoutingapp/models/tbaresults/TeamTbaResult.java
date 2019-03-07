@@ -1,8 +1,8 @@
-package com.team34rockets.scoutingapp.models;
+package com.team34rockets.scoutingapp.models.tbaresults;
 
 import java.util.Map;
 
-public class TeamTBAResult {
+public class TeamTbaResult {
 
     private String address;
     private String city;
@@ -23,10 +23,10 @@ public class TeamTBAResult {
     private String team_number;
     private String website;
 
-    public TeamTBAResult() {
+    public TeamTbaResult() {
     }
 
-    public TeamTBAResult(String address, String city, String country, String gmaps_place_id,
+    public TeamTbaResult(String address, String city, String country, String gmaps_place_id,
                          String gmaps_url,
                          Map<String, String> home_championship, String key, String lat,
                          String lng, String location_name, String motto, String name,
@@ -52,8 +52,8 @@ public class TeamTBAResult {
         this.website = website;
     }
 
-    public static TeamTBAResult TeamTBAResultBuilder(Map<String, Object> data) {
-        TeamTBAResult result = new TeamTBAResult();
+    public static TeamTbaResult Builder(Map<String, Object> data) {
+        TeamTbaResult result = new TeamTbaResult();
         result.setAddress((String) data.get("address"));
         result.setCity((String) data.get("city"));
         result.setCountry((String) data.get("country"));

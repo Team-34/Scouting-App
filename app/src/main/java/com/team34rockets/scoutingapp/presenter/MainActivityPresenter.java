@@ -19,7 +19,6 @@ import com.team34rockets.scoutingapp.handlers.TBAHandler;
 import com.team34rockets.scoutingapp.models.Competition;
 import com.team34rockets.scoutingapp.models.ScoutingReport;
 import com.team34rockets.scoutingapp.models.Team;
-import com.team34rockets.scoutingapp.models.TeamTBAResult;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -80,12 +79,6 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(MainActivityPresenter.this.view.getActivity(),
                         TeamViewActivity.class);
-                try {
-                    TeamTBAResult result = TBAHandler.GetTeamData(34);
-                    Log.d("E", "Team Data Read");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 intent.putExtra("team", new Gson().toJson(competition));
                 intent.putExtra("position", position);
                 MainActivityPresenter.this.view.getActivity().startActivity(intent);

@@ -1,17 +1,25 @@
 package com.team34rockets.scoutingapp.presenter;
 
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
+import com.team34rockets.scoutingapp.R;
 import com.team34rockets.scoutingapp.TeamMatchActivity;
 import com.team34rockets.scoutingapp.adapters.MatchListAdapter;
 import com.team34rockets.scoutingapp.contracts.TeamViewContract;
+import com.team34rockets.scoutingapp.handlers.TBAHandler;
 import com.team34rockets.scoutingapp.models.Competition;
 import com.team34rockets.scoutingapp.models.Match;
 import com.team34rockets.scoutingapp.models.ScoutingReport;
 import com.team34rockets.scoutingapp.models.Team;
+import com.team34rockets.scoutingapp.models.tbaresults.EventOprsTbaResult;
+import com.team34rockets.scoutingapp.models.tbaresults.TeamEventKeysTbaResult;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +28,11 @@ public class TeamViewPresenter implements TeamViewContract.Presenter {
     private Competition competition;
     private MatchListAdapter matchListAdapter;
     private Team team;
+    private ProgressBar progressBar;
 
     @Override
     public void onCreate() {
+        progressBar = view.getActivity().findViewById(R.id.progressBar);
         competition = new Gson().fromJson(view.getTeamString(), Competition.class);
         team = competition.getTeam(view.getPosition());
         matchListAdapter = new MatchListAdapter(generateMatches(view.getPosition()),
@@ -38,8 +48,8 @@ public class TeamViewPresenter implements TeamViewContract.Presenter {
                 TeamViewPresenter.this.view.getActivity().startActivity(intent);
             }
         });
+        new RetrieveInfo().execute();
         view.updateTeamData(competition.getTeam(view.getPosition()), matchListAdapter);
-
     }
 
     @Override
@@ -54,6 +64,42 @@ public class TeamViewPresenter implements TeamViewContract.Presenter {
         }
 
         return matches;
+    }
+
+    private class RetrieveInfo extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                TeamEventKeysTbaResult eventKeysTbaResult =
+                        TBAHandler.GetKeysData(team.getNumber());
+                Log.d("", "");
+                EventOprsTbaResult eventOprsTbaResult = TBAHandler.GetStatsData(eventKeysTbaResult
+                        .getEvents().get(eventKeysTbaResult.getEvents().indexOf("2019scmb")));
+                team.setCcwm(eventOprsTbaResult.getCcwms().get("frc".concat(String
+                        .valueOf(team.getNumber()))));
+                team.setOpr(eventOprsTbaResult.getOprs().get("frc".concat(String
+                        .valueOf(team.getNumber()))));
+                team.setDpr(eventOprsTbaResult.getDprs().get("frc".concat(String
+                        .valueOf(team.getNumber()))));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            view.updateTeamData(competition.getTeam(view.getPosition()), matchListAdapter);
+            progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
