@@ -18,10 +18,13 @@ public class Team implements Parcelable {
     private String name;
 
     private int rank;
+    private String numTeams = "";
+    private String rankingScore = "";
     private double apr;
     private double opr;
     private double dpr;
     private double ccwm;
+    private String key;
 
     public static final Parcelable.Creator<Team> CREATOR = new Parcelable.Creator<Team>() {
 
@@ -47,6 +50,7 @@ public class Team implements Parcelable {
                 return o1.matchNumber - o2.matchNumber;
             }
         });
+        this.key = "frc".concat(String.valueOf(number));
     }
 
     public int getRank() {
@@ -130,6 +134,38 @@ public class Team implements Parcelable {
 
     double getApr() {
         return calculateApr();
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNumTeams() {
+        return numTeams;
+    }
+
+    public void setNumTeams(String numTeams) {
+        this.numTeams = numTeams;
+    }
+
+    public String getRankingScore() {
+        return rankingScore;
+    }
+
+    public void setRankingScore(String rankingScore) {
+        this.rankingScore = rankingScore;
     }
 
     private double calculateApr() {

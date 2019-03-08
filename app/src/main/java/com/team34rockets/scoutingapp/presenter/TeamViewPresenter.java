@@ -18,6 +18,7 @@ import com.team34rockets.scoutingapp.models.ScoutingReport;
 import com.team34rockets.scoutingapp.models.Team;
 import com.team34rockets.scoutingapp.models.tbaresults.EventOprsTbaResult;
 import com.team34rockets.scoutingapp.models.tbaresults.TeamEventKeysTbaResult;
+import com.team34rockets.scoutingapp.models.tbaresults.TeamEventStatusResult;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -82,6 +83,11 @@ public class TeamViewPresenter implements TeamViewContract.Presenter {
                         .valueOf(team.getNumber()))));
                 team.setDpr(eventOprsTbaResult.getDprs().get("frc".concat(String
                         .valueOf(team.getNumber()))));
+                TeamEventStatusResult eventStatusResult = TBAHandler.GetStatusData(team.getNumber(),
+                        "2019scmb");
+                team.setRank(Integer.parseInt(eventStatusResult.getRank()));
+                team.setNumTeams(eventStatusResult.getNum_teams());
+                team.setRankingScore(eventStatusResult.getRankingScore());
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -6,6 +6,7 @@ import android.util.JsonToken;
 
 import com.team34rockets.scoutingapp.models.tbaresults.EventOprsTbaResult;
 import com.team34rockets.scoutingapp.models.tbaresults.TeamEventKeysTbaResult;
+import com.team34rockets.scoutingapp.models.tbaresults.TeamEventStatusResult;
 import com.team34rockets.scoutingapp.models.tbaresults.TeamTbaResult;
 
 import java.io.ByteArrayInputStream;
@@ -23,7 +24,7 @@ public class TBAHandler {
 
     public static String GetTeamName(int teamNumber) throws IOException {
         HttpURLConnection httpURLConnection =
-                startConnection(String.valueOf(teamNumber), MODE.TEAM);
+                startConnection(new String[]{String.valueOf(teamNumber)}, MODE.TEAM);
         if (httpURLConnection.getResponseCode() == 200) {
             InputStream stream = new ByteArrayInputStream(httpURLConnection.getResponseMessage()
                     .getBytes(StandardCharsets.UTF_8));
@@ -49,11 +50,11 @@ public class TBAHandler {
      * @return a connection
      * @throws IOException if we cant connect
      */
-    private static HttpURLConnection startConnection(String additionalData, MODE mode)
+    private static HttpURLConnection startConnection(String[] additionalData, MODE mode)
             throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        String sTeamNumber = String.valueOf(additionalData);
+        String sTeamNumber = String.valueOf(additionalData[0]);
         String token;
         switch (mode) {
             case TEAM: {
@@ -68,8 +69,13 @@ public class TBAHandler {
                 break;
             }
             case STATS: {
-                token = "https://www.thebluealliance.com/api/v3/event/".concat(additionalData);
+                token = "https://www.thebluealliance.com/api/v3/event/".concat(additionalData[0]);
                 token = token.concat("/oprs");
+                break;
+            }
+            case EVENT_STATUS: {
+                token = "https://www.thebluealliance.com/api/v3/team/frc".concat(sTeamNumber
+                        .concat("/event/".concat(additionalData[1].concat("/status"))));
                 break;
             }
             default:
@@ -89,7 +95,7 @@ public class TBAHandler {
 
     public static TeamTbaResult GetTeamData(int teamNumber) throws IOException {
         HttpURLConnection httpURLConnection =
-                startConnection(String.valueOf(teamNumber), MODE.TEAM);
+                startConnection(new String[]{String.valueOf(teamNumber)}, MODE.TEAM);
         Map<String, Object> returnResult = new HashMap<>();
         if (httpURLConnection.getResponseCode() == 200) {
             JsonReader reader =
@@ -121,7 +127,7 @@ public class TBAHandler {
 
     public static TeamEventKeysTbaResult GetKeysData(int teamNumber) throws IOException {
         HttpURLConnection httpURLConnection =
-                startConnection(String.valueOf(teamNumber), MODE.EVENT_KEY);
+                startConnection(new String[]{String.valueOf(teamNumber)}, MODE.EVENT_KEY);
         TeamEventKeysTbaResult result = new TeamEventKeysTbaResult();
         result.setEvents(new ArrayList<String>());
         if (httpURLConnection.getResponseCode() == 200) {
@@ -137,7 +143,7 @@ public class TBAHandler {
     }
 
     public static EventOprsTbaResult GetStatsData(String eventKey) throws IOException {
-        HttpURLConnection httpURLConnection = startConnection(eventKey, MODE.STATS);
+        HttpURLConnection httpURLConnection = startConnection(new String[]{eventKey}, MODE.STATS);
         EventOprsTbaResult result = new EventOprsTbaResult();
         if (httpURLConnection.getResponseCode() == 200) {
             JsonReader reader =
@@ -175,10 +181,58 @@ public class TBAHandler {
         return result;
     }
 
+    public static TeamEventStatusResult GetStatusData(int teamNumber, String eventKey)
+            throws IOException {
+        HttpURLConnection httpURLConnection =
+                startConnection(new String[]{String.valueOf(teamNumber), eventKey},
+                        MODE.EVENT_STATUS);
+        TeamEventStatusResult result = new TeamEventStatusResult();
+        if (httpURLConnection.getResponseCode() == 200) {
+            JsonReader reader = new JsonReader(new InputStreamReader(httpURLConnection
+                    .getInputStream()));
+            reader.beginObject();
+            while (reader.hasNext()) {
+                if (reader.nextName().equalsIgnoreCase("qual")) {
+                    reader.beginObject();
+                    while (reader.hasNext()) {
+                        String iName = reader.nextName();
+                        if (iName.equalsIgnoreCase("ranking")) {
+                            reader.beginObject();
+                            while (reader.hasNext()) {
+                                String iName2 = reader.nextName();
+                                if (iName2.equalsIgnoreCase("rank")) {
+                                    result.setRank(reader.nextString());
+                                } else if (iName2.equalsIgnoreCase("sort_orders")) {
+                                    reader.beginArray();
+                                    while (reader.hasNext()) {
+                                        result.setRankingScore(reader.nextString());
+                                        break;
+                                    }
+                                    while (reader.hasNext()) {
+                                        reader.skipValue();
+                                    }
+                                    reader.endArray();
+                                } else reader.skipValue();
+                            }
+                            reader.endObject();
+                        } else if (iName.equalsIgnoreCase("num_teams")) {
+                            result.setNum_teams(reader.nextString());
+                        } else reader.skipValue();
+                    }
+                    reader.endObject();
+                } else {
+                    reader.skipValue();
+                }
+            }
+        }
+        return result;
+    }
+
     public enum MODE {
         TEAM,
         EVENT_KEY,
-        STATS
+        STATS,
+        EVENT_STATUS
     }
 
 }

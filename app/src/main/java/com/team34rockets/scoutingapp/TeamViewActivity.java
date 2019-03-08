@@ -38,12 +38,14 @@ public class TeamViewActivity extends AppCompatActivity implements TeamViewContr
         df.setRoundingMode(RoundingMode.HALF_UP);
         ((TextView) findViewById(R.id.teamName)).setText(team.getName());
         ((TextView) findViewById(R.id.teamNumber)).setText(String.valueOf(team.getNumber()));
-        ((TextView) findViewById(R.id.ranking)).setText(String.valueOf(team.getRank()));
+        ((TextView) findViewById(R.id.ranking)).setText(String.valueOf(team.getRank())
+                .concat("/".concat(team.getNumTeams())));
         ((TextView) findViewById(R.id.teamApr)).setText(df.format(team.getScaledApr(
                 presenter.getCompetition())));
         ((TextView) findViewById(R.id.teamOpr)).setText(df.format(team.getOpr()));
         ((TextView) findViewById(R.id.teamDpr)).setText(df.format(team.getDpr()));
         ((TextView) findViewById(R.id.teamCcwm)).setText(df.format(team.getCcwm()));
+        ((TextView) findViewById(R.id.rankingPoints)).setText(team.getRankingScore());
         recyclerView.setAdapter(matchListAdapter);
     }
 
