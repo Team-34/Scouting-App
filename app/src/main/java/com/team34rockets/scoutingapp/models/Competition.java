@@ -37,6 +37,26 @@ public class Competition {
         });
     }
 
+    public void sortByApr() {
+        Collections.sort(teamList, new Comparator<Team>() {
+            @Override
+            public int compare(Team o1, Team o2) {
+
+                return (int) Math.round(o2.getScaledApr(Competition.this) -
+                        o1.getScaledApr(Competition.this));
+            }
+        });
+    }
+
+    public void sortByTeamNumber() {
+        Collections.sort(teamList, new Comparator<Team>() {
+            @Override
+            public int compare(Team o1, Team o2) {
+                return o1.getNumber() - o2.getNumber();
+            }
+        });
+    }
+
     public List<Team> getTeamList() {
         return teamList;
     }

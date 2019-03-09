@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
 
 import com.team34rockets.scoutingapp.adapters.TeamListAdapter;
@@ -22,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
 
     RecyclerView recyclerView;
+    private boolean aprMode = false;
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
     MainActivityContract.Presenter presenter = new MainActivityPresenter();
     public static final int YEETEMUP = 6934;
@@ -70,11 +74,27 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         }
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options, menu);
+        return true;
+    }
+
     void recyclerSetup() {
         recyclerView = findViewById(R.id.teamListRV);
         recyclerView.setLayoutManager(layoutManager);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getTitle().toString().equals("Sort By APR")) {
+            aprMode = true;
+        } else if (item.getTitle().toString().equalsIgnoreCase("Sort By Team Number")) {
+            aprMode = false;
+        }
+        presenter.sort(aprMode);
+        return true;
+    }
 
     @Override
     public void updateTeamList(TeamListAdapter teamListAdapter) {

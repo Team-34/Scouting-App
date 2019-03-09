@@ -131,6 +131,16 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
         new RefreshInfo().execute();
     }
 
+    @Override
+    public void sort(boolean aprMode) {
+        if (aprMode) {
+            competition.sortByApr();
+        } else if (!aprMode) {
+            competition.sortByTeamNumber();
+        }
+        view.updateTeamList(teamListAdapter);
+    }
+
     private class RefreshInfo extends AsyncTask<Void, Integer, Void> {
         ProgressBar progressBar = MainActivityPresenter.this.progressBar;
 

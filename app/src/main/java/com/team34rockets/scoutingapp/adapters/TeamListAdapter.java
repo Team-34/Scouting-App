@@ -9,6 +9,9 @@ import android.widget.TextView;
 import com.team34rockets.scoutingapp.R;
 import com.team34rockets.scoutingapp.models.Competition;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,9 +36,12 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.HALF_UP);
         holder.teamNumberTextView.setText(String.valueOf(dataset.getTeam(position).getNumber()));
         holder.teamNameTextView.setText(dataset.getTeam(position).getName());
+        holder.teamAprTextView.setText(df.format(dataset.getTeam(position)
+                .getScaledApr(dataset)));
     }
 
     @Override
@@ -54,11 +60,13 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView teamNameTextView;
         TextView teamNumberTextView;
+        TextView teamAprTextView;
 
         ViewHolder(View itemView) {
             super(itemView);
             teamNameTextView = itemView.findViewById(R.id.teamRowName);
             teamNumberTextView = itemView.findViewById(R.id.teamRowNumber);
+            teamAprTextView = itemView.findViewById(R.id.teamRowApr);
             itemView.setOnClickListener(this);
         }
 

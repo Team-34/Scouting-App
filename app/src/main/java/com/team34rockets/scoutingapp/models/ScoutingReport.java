@@ -111,7 +111,7 @@ public class ScoutingReport {
             report.teamNumber = getInteger("Team Number");
             report.matchNumber = getInteger("Match Number");
             report.hatchesScored = getInteger("How many hatches did they score?");
-            report.cargoScored = getInteger("How many cargo did they score?");
+            report.cargoScored = getInteger("How much cargo did they score?");
             report.canPlaceHatches = getBoolean("Can they place hatches?");
             report.hatchLayer = getLayer("If yes, which level of the rocket?");
             report.canPlaceCargo = getBoolean("Can they shoot cargo?");

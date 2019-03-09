@@ -30,6 +30,8 @@ public interface MainActivityContract {
 
         void refresh();
 
+        void sort(boolean aprMode);
+
         void attach(View view);
 
         void detach();
